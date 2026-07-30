@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import Providers from "@/components/providers";
-
 export const metadata: Metadata = {
   title: "DevCoach AI",
   description: "AI Interview Preparation Platform",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Home() {
   return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <main>
+      <h1>DevCoach AI</h1>
+
+      <p>AI Interview Preparation Platform</p>
+    </main>
   );
 }
