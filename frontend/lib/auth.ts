@@ -40,3 +40,8 @@ export async function login(data: LoginFormData): Promise<LoginResponse> {
   const response = await api.post<LoginResponse>("auth/login", data);
   return response.data;
 }
+
+export async function getProgile(): Promise<User> {
+  const response = await api.get<User>("users/profile");
+  return response.data;
+}

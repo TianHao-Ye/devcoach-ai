@@ -37,6 +37,7 @@ const LoginPage = () => {
   return (
     <main className="flex min-h-screen items-center justify-center">
       <form
+        //pass in the function instead of call it
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md space-y-4"
       >
@@ -46,6 +47,7 @@ const LoginPage = () => {
           <input
             id="email"
             type="email"
+            //register tells react hook to track and store its value under "email" property
             {...register("email")}
             className="w-full rounded border p-2"
           />
