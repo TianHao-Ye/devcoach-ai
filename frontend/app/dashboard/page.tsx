@@ -1,27 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
+import { useLogout } from "@/features/auth/hooks/use-logout";
 import { useProfile } from "@/features/auth/hooks/use-profile";
 
 const DashboardPage = () => {
-  const router = useRouter();
   const profileQuery = useProfile();
-
-  useEffect(() => {
-    if (profileQuery.isError) {
-      localStorage.removeItem("access_token");
-      //authentication redirect use 'replace' instead of 'push'
-      router.replace("/login");
-    }
-  }, [profileQuery.isError, router]);
+  const { logout } = useLogout();
 
   if (profileQuery.isPending) {
     return <main className="p-8">Loading profile...</main>;
   }
 
-  if (profileQuery.isError || !profileQuery.data) {
+  if (!profileQuery.data) {
     return null;
   }
 
@@ -29,11 +19,19 @@ const DashboardPage = () => {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <button
+          type="button"
+          onClick={logout}
+          className="rounded border px-4 py-2"
+        >
+          Logout
+        </button>
+      </div>
 
-      <div className="mt-6 space-y-2">
-        <p>Name: {user.name ?? "Not provided"}</p>
-        <p>Email: {user.email}</p>
+      <div className="mt-6">
+        <p>{user.name ?? user.email}</p>
       </div>
     </main>
   );

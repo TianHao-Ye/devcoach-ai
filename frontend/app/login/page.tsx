@@ -27,8 +27,7 @@ const LoginPage = () => {
 
   const onSubmit = (data: LoginFormData) => {
     loginMutation.mutate(data, {
-      onSuccess: (response) => {
-        localStorage.setItem("access_token", response.access_token);
+      onSuccess: () => {
         router.push("/dashboard");
       },
     });

@@ -50,6 +50,7 @@ export class AuthService {
     };
   }
 
+  //servic owns autnentication logic
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
 
@@ -78,6 +79,12 @@ export class AuthService {
 
     return {
       access_token: token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        createdAt: user.createdAt,
+      },
     };
   }
 }

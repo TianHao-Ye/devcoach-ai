@@ -1,24 +1,28 @@
+// import { removeAccessToken } from "@/features/auth/utils/token";
 import axios from "axios";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  // Accept Set-Cookie responses and send cookies on requests to the API.
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-//adda token to every protected request
-api.interceptors.request.use((config) => {
-  //browser: window exists, server: windows does not exist, as local storage is browser API
-  if (typeof window === "undefined") {
-    return config;
-  }
+// token invalid or expired, api return authorization fail, remove token and go to login page
+api.interceptors.response.use(
+  (response) => response,
 
-  const accessToken = localStorage.getItem("access_token");
+  (error) => {
+    if (typeof window !== "undefined" && error.response?.status === 401) {
+      // removeAccessToken();
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+      if (window.location.pathname !== "/login") {
+        window.location.replace("/login");
+      }
+    }
 
-  return config;
-});
+    return Promise.reject(error);
+  },
+);

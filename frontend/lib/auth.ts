@@ -14,7 +14,7 @@ import { RegisterFormData } from "@/features/auth/schemas/register.schema";
 // }
 
 export interface LoginResponse {
-  access_token: string;
+  user: User;
 }
 
 export interface User {
