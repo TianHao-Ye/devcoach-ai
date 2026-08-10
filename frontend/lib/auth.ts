@@ -17,6 +17,10 @@ export interface LoginResponse {
   user: User;
 }
 
+export interface LogoutResponse {
+  message: string;
+}
+
 export interface User {
   id: string;
   email: string;
@@ -43,5 +47,10 @@ export async function login(data: LoginFormData): Promise<LoginResponse> {
 
 export async function getProgile(): Promise<User> {
   const response = await api.get<User>("users/profile");
+  return response.data;
+}
+
+export async function logout(): Promise<LogoutResponse> {
+  const response = await api.post<LogoutResponse>("auth/logout");
   return response.data;
 }

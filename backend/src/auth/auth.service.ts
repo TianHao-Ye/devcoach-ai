@@ -60,6 +60,7 @@ export class AuthService {
       },
     });
 
+    // if user not found in database or password unmatched return 401 Unauthorized
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -70,11 +71,13 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    // otherwise create JWT
     const payload = {
       sub: user.id,
       email: user.email,
     };
 
+    // with JWT_SECRET defined in auth module, 用户信息 + JWT_SECRET → 签名后的 JWT
     const token = this.jwtService.sign(payload);
 
     return {

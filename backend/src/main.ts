@@ -10,7 +10,7 @@ async function bootstrap() {
   //prevent cors local dev cors error
   app.enableCors({
     origin: 'http://localhost:3000',
-    // Allows credentialed browser requests from frontend.
+    // Allows credentialed browser requests from above origin, frontend need to define 'withCredentials: true'
     credentials: true,
   });
 

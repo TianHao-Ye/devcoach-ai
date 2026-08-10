@@ -2,10 +2,26 @@
 
 import { useLogout } from "@/features/auth/hooks/use-logout";
 import { useProfile } from "@/features/auth/hooks/use-profile";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 const DashboardPage = () => {
   const profileQuery = useProfile();
-  const { logout } = useLogout();
+  const logoutMutation = useLogout();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const onLogout = () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        queryClient.clear();
+        router.replace("/login");
+      },
+      onError: (error) => {
+        console.error("Logout failed:", error);
+      },
+    });
+  };
 
   if (profileQuery.isPending) {
     return <main className="p-8">Loading profile...</main>;
@@ -23,10 +39,10 @@ const DashboardPage = () => {
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <button
           type="button"
-          onClick={logout}
-          className="rounded border px-4 py-2"
+          onClick={onLogout}
+          disabled={logoutMutation.isPending}
         >
-          Logout
+          {logoutMutation.isPending ? "Logging out..." : "Logout"}
         </button>
       </div>
 
