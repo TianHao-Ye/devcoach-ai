@@ -4,21 +4,36 @@ import type { Resume } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { join } from 'path';
 import { unlink } from 'fs/promises';
+import { ResumeParserService } from './ resume-parser.service';
 
 @Injectable()
 export class ResumesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly resumeParser: ResumeParserService,
+  ) {}
 
   async create(userId: string, file: Express.Multer.File): Promise<Resume> {
-    return this.prisma.resume.create({
-      data: {
-        originalName: file.originalname,
-        fileName: file.filename,
-        mimeType: file.mimetype,
-        size: file.size,
-        userId,
-      },
-    });
+    // if content extration fail or file data fail write into database, then delete file from backend disk storage
+    try {
+      const fileContent = await this.resumeParser.extractText(file);
+
+      return this.prisma.resume.create({
+        data: {
+          originalName: file.originalname,
+          fileName: file.filename,
+          mimeType: file.mimetype,
+          size: file.size,
+          content: fileContent,
+          userId,
+        },
+      });
+    } catch (error) {
+      // if file deletion on backend disk fail, do not throw deletion fail info
+      await unlink(file.path).catch(() => undefined);
+
+      throw error;
+    }
   }
 
   async findAll(userId: string): Promise<Resume[]> {

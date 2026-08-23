@@ -28,6 +28,8 @@ model Resume {
   mimeType     String
   size         Int
 
+  content      String?
+
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
