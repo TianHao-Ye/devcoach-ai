@@ -1,5 +1,6 @@
 import { ResumeList } from "@/features/resume/components/resume-list";
 import { ResumeUpload } from "@/features/resume/components/resume-upload";
+import Link from "next/link";
 
 const ResumesPage = () => {
   return (
@@ -13,6 +14,12 @@ const ResumesPage = () => {
       <ResumeUpload />
 
       <ResumeList />
+      <Link
+        href="/dashboard"
+        className="inline-block rounded bg-black px-4 py-2 text-white"
+      >
+        Back
+      </Link>
     </main>
   );
 };

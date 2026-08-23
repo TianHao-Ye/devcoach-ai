@@ -1,5 +1,5 @@
 import { LoginFormData } from "@/features/auth/schemas/login.schema";
-import { api } from "./api";
+import { api } from "../../../lib/api";
 import { RegisterFormData } from "@/features/auth/schemas/register.schema";
 
 // export interface RegisterRequest {

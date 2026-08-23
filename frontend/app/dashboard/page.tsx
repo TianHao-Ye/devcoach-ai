@@ -3,6 +3,7 @@
 import { useLogout } from "@/features/auth/hooks/use-logout";
 import { useProfile } from "@/features/auth/hooks/use-profile";
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const DashboardPage = () => {
@@ -46,8 +47,15 @@ const DashboardPage = () => {
         </button>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 space-y-6">
         <p>{user.name ?? user.email}</p>
+
+        <Link
+          href="/dashboard/resumes"
+          className="inline-block rounded bg-black px-4 py-2 text-white"
+        >
+          Manage Resumes
+        </Link>
       </div>
     </main>
   );

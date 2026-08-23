@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProgile } from "@/lib/auth";
+import { getProgile } from "@/features/auth/api/auth.api";
 
 export const useProfile = () => {
   return useQuery({

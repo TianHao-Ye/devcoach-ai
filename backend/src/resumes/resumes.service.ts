@@ -36,10 +36,19 @@ export class ResumesService {
     }
   }
 
-  async findAll(userId: string): Promise<Resume[]> {
+  async findAll(userId: string) {
     return this.prisma.resume.findMany({
       where: {
         userId,
+      },
+      select: {
+        id: true,
+        originalName: true,
+        fileName: true,
+        mimeType: true,
+        size: true,
+        createdAt: true,
+        updatedAt: true,
       },
       orderBy: {
         createdAt: 'desc',

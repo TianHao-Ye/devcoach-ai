@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useDeleteResume } from "../hooks/use-delete-resume";
 import { useResumes } from "../hooks/use-resumes";
 
@@ -32,16 +34,29 @@ export const ResumeList = () => {
             <p className="text-sm text-gray-500">
               {(resume.size / 1024).toFixed(1)} KB
             </p>
+
+            <p className="text-sm text-gray-500">
+              Uploaded {new Date(resume.createdAt).toLocaleDateString()}
+            </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => deleteMutation.mutate(resume.id)}
-            disabled={deleteMutation.isPending}
-            className="text-sm text-red-500"
-          >
-            Delete
-          </button>
+          <div className="flex items-center gap-4">
+            <Link
+              href={`/dashboard/resumes/${resume.id}`}
+              className="text-sm underline"
+            >
+              View
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => deleteMutation.mutate(resume.id)}
+              disabled={deleteMutation.isPending}
+              className="text-sm text-red-500 disabled:opacity-50"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>
