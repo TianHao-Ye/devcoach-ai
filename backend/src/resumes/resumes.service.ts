@@ -1,16 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import type { Resume } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { join } from 'path';
 import { unlink } from 'fs/promises';
 import { ResumeParserService } from './ resume-parser.service';
+import { AiService } from 'src/ai/ai.service';
 
 @Injectable()
 export class ResumesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly resumeParser: ResumeParserService,
+    private readonly aiService: AiService,
   ) {}
 
   async create(userId: string, file: Express.Multer.File): Promise<Resume> {
@@ -93,5 +99,15 @@ export class ResumesService {
     return {
       message: 'Resume deleted successfully',
     };
+  }
+
+  async analyze(userId: string, resumeId: string) {
+    const resume = await this.findOne(userId, resumeId);
+
+    if (!resume.content) {
+      throw new BadRequestException('Resume content is not available');
+    }
+
+    return this.aiService.analyzeResume(resume.content);
   }
 }
