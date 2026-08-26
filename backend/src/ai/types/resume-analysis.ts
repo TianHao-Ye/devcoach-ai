@@ -1,11 +1,11 @@
-export interface ResumeAnalysis {
-  summary: string;
+import { z } from 'zod';
 
-  skills: string[];
+export const resumeAnalysisSchema = z.object({
+  summary: z.string().min(1),
+  skills: z.array(z.string().min(1)).min(1),
+  strengths: z.array(z.string().min(1)).min(1),
+  gaps: z.array(z.string().min(1)),
+  suggestedRoles: z.array(z.string().min(1)).min(1),
+});
 
-  strengths: string[];
-
-  gaps: string[];
-
-  suggestedRoles: string[];
-}
+export type ResumeAnalysis = z.infer<typeof resumeAnalysisSchema>;

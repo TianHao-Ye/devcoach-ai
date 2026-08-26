@@ -88,6 +88,11 @@ export class ResumesController {
     return this.resumesService.remove(request.user.userId, id);
   }
 
+  @Get(':id/analysis')
+  getAnalysis(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
+    return this.resumesService.getAnalysis(request.user.userId, id);
+  }
+
   @Post(':id/analyze')
   analyze(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
     return this.resumesService.analyze(request.user.userId, id);

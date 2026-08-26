@@ -107,7 +107,45 @@ export class ResumesService {
     if (!resume.content) {
       throw new BadRequestException('Resume content is not available');
     }
+    const result = await this.aiService.analyzeResume(resume.content);
 
-    return this.aiService.analyzeResume(resume.content);
+    return this.prisma.resumeAnalysis.upsert({
+      where: {
+        resumeId: resume.id,
+      },
+
+      update: {
+        summary: result.summary,
+        skills: result.skills,
+        strengths: result.strengths,
+        gaps: result.gaps,
+        suggestedRoles: result.suggestedRoles,
+      },
+
+      create: {
+        resumeId: resume.id,
+        summary: result.summary,
+        skills: result.skills,
+        strengths: result.strengths,
+        gaps: result.gaps,
+        suggestedRoles: result.suggestedRoles,
+      },
+    });
+  }
+
+  async getAnalysis(userId: string, resumeId: string) {
+    await this.findOne(userId, resumeId);
+
+    const analysis = await this.prisma.resumeAnalysis.findUnique({
+      where: {
+        resumeId,
+      },
+    });
+
+    if (!analysis) {
+      throw new NotFoundException('Resume analysis not found');
+    }
+
+    return analysis;
   }
 }

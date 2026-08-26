@@ -33,8 +33,28 @@ model Resume {
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  analysis     ResumeAnalysis?
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   @@index([userId])
+}
+
+model ResumeAnalysis {
+
+  id             String   @id @default(uuid())
+
+  summary        String
+  skills         String[]
+  strengths      String[]
+  gaps           String[]
+  suggestedRoles String[]
+
+  resumeId       String   @unique
+  resume         Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
 }
