@@ -1,5 +1,6 @@
 import { api } from "@/lib/api";
 import type { Resume, ResumeSummary } from "../types/resume";
+import { ResumeAnalysis } from "../types/resume-analysis";
 
 export async function getResumes(): Promise<ResumeSummary[]> {
   const response = await api.get<ResumeSummary[]>("/resumes");
@@ -24,4 +25,22 @@ export async function uploadResume(file: File): Promise<ResumeSummary> {
 
 export async function deleteResume(id: string): Promise<void> {
   await api.delete(`/resumes/${id}`);
+}
+
+export async function getResumeAnalysis(
+  resumeId: string,
+): Promise<ResumeAnalysis> {
+  const response = await api.get<ResumeAnalysis>(
+    `/resumes/${resumeId}/analysis`,
+  );
+
+  return response.data;
+}
+
+export async function analyzeResume(resumeId: string): Promise<ResumeAnalysis> {
+  const response = await api.post<ResumeAnalysis>(
+    `/resumes/${resumeId}/analyze`,
+  );
+
+  return response.data;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useResume } from "../hooks/use-resume";
+import { ResumeAnalysis } from "./resume-analysis";
 
 interface ResumeDetailProps {
   resumeId: string;
@@ -36,6 +37,8 @@ export const ResumeDetail = ({ resumeId }: ResumeDetailProps) => {
           {resume.content || "No text content available."}
         </div>
       </section>
+
+      <ResumeAnalysis resumeId={resumeId} />
     </div>
   );
 };

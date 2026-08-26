@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getResume } from "../api/resume.api";
 
-export const useResume = (id: string) => {
+export const useResume = (resumeId: string) => {
   return useQuery({
-    queryKey: ["resumes", id],
-    queryFn: () => getResume(id),
-    enabled: Boolean(id),
+    queryKey: ["resumes", resumeId],
+    queryFn: () => getResume(resumeId),
+    enabled: Boolean(resumeId),
   });
 };
