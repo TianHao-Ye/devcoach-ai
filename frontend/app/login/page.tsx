@@ -8,6 +8,8 @@ import {
 } from "@/features/auth/schemas/login.schema";
 import { useLogin } from "@/features/auth/hooks/use-login";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, LoaderCircle } from "lucide-react";
 
 //Component name use PascalCase：
 const LoginPage = () => {
@@ -75,13 +77,24 @@ const LoginPage = () => {
           <p className="text-sm text-red-500">Invalid email or password.</p>
         )}
 
-        <button
+        <Button
           type="submit"
+          size="lg"
+          className="w-full"
           disabled={loginMutation.isPending}
-          className="w-full rounded bg-black p-2 text-white disabled:opacity-50"
         >
-          {loginMutation.isPending ? "Signing in..." : "Sign in"}
-        </button>
+          {loginMutation.isPending ? (
+            <>
+              <LoaderCircle className="animate-spin" />
+              Signing in
+            </>
+          ) : (
+            <>
+              Sign in
+              <ArrowRight />
+            </>
+          )}
+        </Button>
       </form>
     </main>
   );

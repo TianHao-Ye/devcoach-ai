@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 
 import { useUploadResume } from "../hooks/use-upload-resume";
+import { Button } from "@/components/ui/button";
+import { LoaderCircle, Trash2, Upload } from "lucide-react";
 
 export const ResumeUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -23,9 +25,10 @@ export const ResumeUpload = () => {
   };
 
   const handleClear = () => {
+    //clean up react react
     setFile(null);
 
-    //clean up dom state
+    //clean up browser dom state, if not clean then if user clear and choose the same file, the input onChange might not be triggered again
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -34,24 +37,30 @@ export const ResumeUpload = () => {
   return (
     <div className="space-y-4">
       <input
+        //put this input element into fileInputRef.current
+        ref={fileInputRef}
         id="resume-file"
         type="file"
         accept=".pdf,.docx"
+        // use button declared below the decorate this input
         className="hidden"
         onChange={(event) => {
           setFile(event.target.files?.[0] ?? null);
         }}
       />
       <div className="flex items-center gap-3">
-        <label
-          htmlFor="resume-file"
-          className="cursor-pointer rounded-md border bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+        <Button
+          type="button"
+          variant="outline"
+          // click button to mock triggering the hidden input element
+          onClick={() => fileInputRef.current?.click()}
         >
+          <Upload />
           Choose a file
-        </label>
+        </Button>
 
         <span className="text-sm text-gray-500">
-          {file ? file.name : "No resumes chossen yet."}
+          {file ? file.name : "No resume chosen yet."}
         </span>
       </div>
 
@@ -65,25 +74,37 @@ export const ResumeUpload = () => {
             </p>
           </div>
 
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
             onClick={handleClear}
             disabled={uploadMutation.isPending}
-            className="text-sm text-red-500"
           >
+            <Trash2 />
             Clear
-          </button>
+          </Button>
         </div>
       )}
 
-      <button
+      <Button
         type="button"
+        size="lg"
         onClick={handleUpload}
         disabled={!file || uploadMutation.isPending}
-        className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
       >
-        {uploadMutation.isPending ? "Uploading..." : "Upload Resume"}
-      </button>
+        {uploadMutation.isPending ? (
+          <>
+            <LoaderCircle className="animate-spin" />
+            Uploading
+          </>
+        ) : (
+          <>
+            <Upload />
+            Upload resume
+          </>
+        )}
+      </Button>
 
       {uploadMutation.isError && (
         <p className="text-sm text-red-500">Failed to upload resume.</p>

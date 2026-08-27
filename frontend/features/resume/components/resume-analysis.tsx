@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useAnalyzeResume } from "../hooks/use-analyze-resume";
 import { useResumeAnalysis } from "../hooks/use-resume-analysis";
+import { LoaderCircle, RefreshCw, Sparkles } from "lucide-react";
 
 interface ResumeAnalysisProps {
   resumeId: string;
@@ -24,14 +26,24 @@ export const ResumeAnalysis = ({ resumeId }: ResumeAnalysisProps) => {
       <div className="space-y-4">
         <p>No analysis available yet.</p>
 
-        <button
+        <Button
           type="button"
+          size="lg"
           onClick={handleAnalyze}
           disabled={analyzeMutation.isPending}
-          className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
         >
-          {analyzeMutation.isPending ? "Analyzing..." : "Analyze Resume"}
-        </button>
+          {analyzeMutation.isPending ? (
+            <>
+              <LoaderCircle className="animate-spin" />
+              Analyzing
+            </>
+          ) : (
+            <>
+              <Sparkles />
+              Analyze resume
+            </>
+          )}
+        </Button>
 
         {analyzeMutation.isError && (
           <p className="text-sm text-red-500">Failed to analyze resume.</p>
@@ -47,14 +59,24 @@ export const ResumeAnalysis = ({ resumeId }: ResumeAnalysisProps) => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Resume Analysis</h2>
 
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={handleAnalyze}
           disabled={analyzeMutation.isPending}
-          className="rounded border px-4 py-2 text-sm disabled:opacity-50"
         >
-          {analyzeMutation.isPending ? "Analyzing..." : "Analyze Again"}
-        </button>
+          {analyzeMutation.isPending ? (
+            <>
+              <LoaderCircle className="animate-spin" />
+              Analyzing
+            </>
+          ) : (
+            <>
+              <RefreshCw />
+              Analyze again
+            </>
+          )}
+        </Button>
       </div>
 
       <div>

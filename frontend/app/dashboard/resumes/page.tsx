@@ -1,5 +1,7 @@
+import { buttonVariants } from "@/components/ui/button";
 import { ResumeList } from "@/features/resume/components/resume-list";
 import { ResumeUpload } from "@/features/resume/components/resume-upload";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const ResumesPage = () => {
@@ -14,11 +16,9 @@ const ResumesPage = () => {
       <ResumeUpload />
 
       <ResumeList />
-      <Link
-        href="/dashboard"
-        className="inline-block rounded bg-black px-4 py-2 text-white"
-      >
-        Back
+      <Link href="/dashboard" className={buttonVariants({ variant: "ghost" })}>
+        <ArrowLeft />
+        Back to dashboard
       </Link>
     </main>
   );

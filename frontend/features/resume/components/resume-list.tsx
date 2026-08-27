@@ -4,6 +4,8 @@ import Link from "next/link";
 
 import { useDeleteResume } from "../hooks/use-delete-resume";
 import { useResumes } from "../hooks/use-resumes";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Eye, LoaderCircle, Trash2 } from "lucide-react";
 
 export const ResumeList = () => {
   const resumesQuery = useResumes();
@@ -44,22 +46,34 @@ export const ResumeList = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <Link
                 href={`/dashboard/resumes/${resume.id}`}
-                className="text-sm underline"
+                className={buttonVariants({ variant: "outline", size: "sm" })}
               >
+                <Eye />
                 View
               </Link>
 
-              <button
+              <Button
                 type="button"
+                variant="destructive"
+                size="sm"
                 onClick={() => deleteMutation.mutate(resume.id)}
                 disabled={isDeleting}
-                className="text-sm text-red-500 disabled:opacity-50"
               >
-                {isDeleting ? "Deleting..." : "Delete"}
-              </button>
+                {isDeleting ? (
+                  <>
+                    <LoaderCircle className="animate-spin" />
+                    Deleting
+                  </>
+                ) : (
+                  <>
+                    <Trash2 />
+                    Delete
+                  </>
+                )}
+              </Button>
             </div>
           </div>
         );

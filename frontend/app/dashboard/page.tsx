@@ -1,8 +1,10 @@
 "use client";
 
+import { Button, buttonVariants } from "@/components/ui/button";
 import { useLogout } from "@/features/auth/hooks/use-logout";
 import { useProfile } from "@/features/auth/hooks/use-profile";
 import { useQueryClient } from "@tanstack/react-query";
+import { ArrowRight, LoaderCircle, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -38,13 +40,24 @@ const DashboardPage = () => {
     <main className="p-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <button
-          type="button"
+        <Button
+          type="submit"
+          variant="ghost"
           onClick={onLogout}
           disabled={logoutMutation.isPending}
         >
-          {logoutMutation.isPending ? "Logging out..." : "Logout"}
-        </button>
+          {logoutMutation.isPending ? (
+            <>
+              <LoaderCircle className="animate-spin" />
+              Logging out
+            </>
+          ) : (
+            <>
+              <LogOut />
+              Logout
+            </>
+          )}
+        </Button>
       </div>
 
       <div className="mt-6 space-y-6">
@@ -52,9 +65,10 @@ const DashboardPage = () => {
 
         <Link
           href="/dashboard/resumes"
-          className="inline-block rounded bg-black px-4 py-2 text-white"
+          className={buttonVariants({ variant: "default", size: "lg" })}
         >
           Manage Resumes
+          <ArrowRight />
         </Link>
       </div>
     </main>

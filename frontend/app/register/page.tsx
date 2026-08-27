@@ -7,6 +7,7 @@ import {
   registerSchema,
 } from "@/features/auth/schemas/register.schema";
 import { useRegister } from "@/features/auth/hooks/use-register";
+import { Button } from "@/components/ui/button";
 
 //Component name use PascalCase：
 const RegisterPage = () => {
@@ -108,14 +109,14 @@ const RegisterPage = () => {
             Registration failed. Please try again.
           </p>
         )}
-
-        <button
+        <Button
           type="submit"
+          size="lg"
+          className="w-full"
           disabled={registerMutation.isPending}
-          className="w-full rounded-md bg-black px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           {registerMutation.isPending ? "Creating account..." : "Register"}
-        </button>
+        </Button>
       </form>
     </main>
   );
