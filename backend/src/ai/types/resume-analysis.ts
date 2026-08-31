@@ -9,3 +9,16 @@ export const resumeAnalysisSchema = z.object({
 });
 
 export type ResumeAnalysis = z.infer<typeof resumeAnalysisSchema>;
+
+export const generatedInterviewQuestionSchema = z.object({
+  question: z.string().min(1),
+  category: z.string().min(1),
+});
+
+export const generatedInterviewQuestionsSchema = z
+  .array(generatedInterviewQuestionSchema)
+  .length(8);
+
+export type GeneratedInterviewQuestion = z.infer<
+  typeof generatedInterviewQuestionSchema
+>;

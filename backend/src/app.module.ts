@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ResumesModule } from './resumes/resumes.module';
 import { AiModule } from './ai/ai.module';
+import { InterviewsModule } from './interviews/interviews.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AiModule } from './ai/ai.module';
     AuthModule,
     ResumesModule,
     AiModule,
+    InterviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

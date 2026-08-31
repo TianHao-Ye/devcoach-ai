@@ -14,7 +14,9 @@ model User {
   email String @unique
   password String
   name String?
+
   resumes Resume[]
+  interviews   Interview[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,6 +36,7 @@ model Resume {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   analysis     ResumeAnalysis?
+  interviews   Interview[]
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -42,7 +45,6 @@ model Resume {
 }
 
 model ResumeAnalysis {
-
   id             String   @id @default(uuid())
 
   summary        String
@@ -56,5 +58,45 @@ model ResumeAnalysis {
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+}
+
+model Interview {
+  id             String   @id @default(uuid())
+
+  title          String
+  targetRole     String
+  jobDescription String?
+
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  resumeId       String?
+  resume         Resume?  @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+
+  questions      InterviewQuestion[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+  @@index([resumeId])
+
+}
+
+model InterviewQuestion {
+  id          String    @id @default(uuid())
+
+  question    String
+  category    String?
+  order       Int
+
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([interviewId])
 
 }
