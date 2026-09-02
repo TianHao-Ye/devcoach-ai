@@ -70,6 +70,14 @@ const DashboardPage = () => {
           Manage Resumes
           <ArrowRight />
         </Link>
+
+        <Link
+          href="/dashboard/interviews"
+          className={buttonVariants({ variant: "default", size: "lg" })}
+        >
+          Manage Interviews
+          <ArrowRight />
+        </Link>
       </div>
     </main>
   );
