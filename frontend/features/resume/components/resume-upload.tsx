@@ -35,7 +35,8 @@ export const ResumeUpload = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="glass-panel space-y-5 p-6 sm:p-7">
+      <div><p className="font-semibold">Add a resume</p><p className="mt-1 text-sm text-muted-foreground">PDF or DOCX · AI-ready in moments</p></div>
       <input
         //put this input element into fileInputRef.current
         ref={fileInputRef}
@@ -48,7 +49,7 @@ export const ResumeUpload = () => {
           setFile(event.target.files?.[0] ?? null);
         }}
       />
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 rounded-2xl border border-dashed border-primary/20 bg-primary/3 p-5 sm:flex-row sm:items-center">
         <Button
           type="button"
           variant="outline"
@@ -59,7 +60,7 @@ export const ResumeUpload = () => {
           Choose a file
         </Button>
 
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-muted-foreground">
           {file ? file.name : "No resume chosen yet."}
         </span>
       </div>

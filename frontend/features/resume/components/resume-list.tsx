@@ -5,26 +5,26 @@ import Link from "next/link";
 import { useDeleteResume } from "../hooks/use-delete-resume";
 import { useResumes } from "../hooks/use-resumes";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Eye, LoaderCircle, Trash2 } from "lucide-react";
+import { ArrowUpRight, FileText, LoaderCircle, Trash2 } from "lucide-react";
 
 export const ResumeList = () => {
   const resumesQuery = useResumes();
   const deleteMutation = useDeleteResume();
 
   if (resumesQuery.isPending) {
-    return <p>Loading resumes...</p>;
+    return <div className="status-card">Loading your resumes...</div>;
   }
 
   if (resumesQuery.isError) {
-    return <p>Failed to load resumes.</p>;
+    return <div className="status-card text-red-500">We couldn’t load your resumes.</div>;
   }
 
   if (resumesQuery.data.length === 0) {
-    return <p>No resumes uploaded yet.</p>;
+    return <div className="status-card">No resumes yet. Upload one above to unlock AI insights.</div>;
   }
 
   return (
-    <div className="space-y-3">
+    <div className="grid gap-4 md:grid-cols-2">
       {resumesQuery.data.map((resume) => {
         const isDeleting =
           deleteMutation.isPending && deleteMutation.variables === resume.id;
@@ -32,10 +32,10 @@ export const ResumeList = () => {
         return (
           <div
             key={resume.id}
-            className="flex items-center justify-between rounded border p-4"
+            className="surface-card flex min-h-48 flex-col justify-between p-6 hover:-translate-y-1 hover:border-primary/15 hover:shadow-xl"
           >
-            <div>
-              <p className="font-medium">{resume.originalName}</p>
+            <div><span className="mb-6 flex size-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-600"><FileText className="size-5" /></span>
+              <p className="font-semibold">{resume.originalName}</p>
 
               <p className="text-sm text-gray-500">
                 {(resume.size / 1024).toFixed(1)} KB
@@ -46,13 +46,12 @@ export const ResumeList = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="mt-5 flex items-center justify-between gap-2">
               <Link
                 href={`/dashboard/resumes/${resume.id}`}
                 className={buttonVariants({ variant: "outline", size: "sm" })}
               >
-                <Eye />
-                View
+                Open <ArrowUpRight />
               </Link>
 
               <Button

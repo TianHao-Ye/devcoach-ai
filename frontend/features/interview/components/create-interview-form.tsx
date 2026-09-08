@@ -8,6 +8,8 @@ import { useResumes } from "@/features/resume/hooks/use-resumes";
 
 import { useCreateInterview } from "../hooks/use-create-interview";
 import { useGenerateInterviewQuestions } from "../hooks/use-generate-interview-questions";
+import { Button } from "@/components/ui/button";
+import { LoaderCircle, Sparkles } from "lucide-react";
 import {
   createInterviewSchema,
   type CreateInterviewFormData,
@@ -43,14 +45,14 @@ export const CreateInterviewForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="glass-panel space-y-6 p-6 sm:p-8">
       <div>
-        <label className="mb-2 block font-medium">Interview Title</label>
+        <label className="field-label">Interview Title</label>
 
         <input
           {...register("title")}
           placeholder="Frontend Developer Interview"
-          className="w-full rounded border p-3"
+          className="field"
         />
 
         {errors.title && (
@@ -59,12 +61,12 @@ export const CreateInterviewForm = () => {
       </div>
 
       <div>
-        <label className="mb-2 block font-medium">Target Role</label>
+        <label className="field-label">Target Role</label>
 
         <input
           {...register("targetRole")}
           placeholder="Frontend Developer"
-          className="w-full rounded border p-3"
+          className="field"
         />
 
         {errors.targetRole && (
@@ -75,9 +77,9 @@ export const CreateInterviewForm = () => {
       </div>
 
       <div>
-        <label className="mb-2 block font-medium">Resume</label>
+        <label className="field-label">Resume <span className="font-normal text-muted-foreground">— optional</span></label>
 
-        <select {...register("resumeId")} className="w-full rounded border p-3">
+        <select {...register("resumeId")} className="field">
           <option value="">No resume</option>
 
           {resumesQuery.data?.map((resume) => (
@@ -89,30 +91,27 @@ export const CreateInterviewForm = () => {
       </div>
 
       <div>
-        <label className="mb-2 block font-medium">Job Description</label>
+        <label className="field-label">Job Description <span className="font-normal text-muted-foreground">— optional</span></label>
 
         <textarea
           {...register("jobDescription")}
           rows={10}
           placeholder="Paste the job description here..."
-          className="w-full rounded border p-3"
+          className="field h-auto min-h-52 py-3 leading-6"
         />
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={
           createInterviewMutation.isPending ||
           generateQuestionMutation.isPending
         }
-        className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
+        size="lg"
+        className="w-full sm:w-auto"
       >
-        {createInterviewMutation.isPending
-          ? "Creating..."
-          : generateQuestionMutation.isPending
-            ? "Generating Questions..."
-            : "Create Interview"}
-      </button>
+        {(createInterviewMutation.isPending || generateQuestionMutation.isPending) ? <><LoaderCircle className="animate-spin" />{createInterviewMutation.isPending ? "Creating interview" : "Generating questions"}</> : <><Sparkles />Create with AI</>}
+      </Button>
 
       {(createInterviewMutation.isError ||
         generateQuestionMutation.isError) && (

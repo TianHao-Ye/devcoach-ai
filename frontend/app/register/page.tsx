@@ -8,6 +8,9 @@ import {
 } from "@/features/auth/schemas/register.schema";
 import { useRegister } from "@/features/auth/hooks/use-register";
 import { Button } from "@/components/ui/button";
+import { Brand } from "@/components/brand";
+import { ArrowRight, LoaderCircle, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 //Component name use PascalCase：
 const RegisterPage = () => {
@@ -31,13 +34,16 @@ const RegisterPage = () => {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
+    <main className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
+      <section className="flex items-center justify-center p-6 sm:p-12">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md space-y-5 rounded-lg border p-6 shadow-sm"
+        className="glass-panel w-full max-w-md space-y-5 p-7 sm:p-10"
       >
+        <div className="mb-7"><Brand /></div>
         <div>
-          <h1 className="text-2xl font-bold">Create Account</h1>
+          <p className="eyebrow">Get started</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Create your account</h1>
 
           <p className="mt-1 text-sm text-gray-500">
             Create your DevCoach AI account.
@@ -54,7 +60,7 @@ const RegisterPage = () => {
             type="text"
             placeholder="Ethan"
             {...register("name")}
-            className="w-full rounded-md border px-3 py-2 outline-none focus:ring-2"
+          className="field"
           />
 
           {errors.name && (
@@ -72,7 +78,7 @@ const RegisterPage = () => {
             type="email"
             placeholder="ethan@example.com"
             {...register("email")}
-            className="w-full rounded-md border px-3 py-2 outline-none focus:ring-2"
+          className="field"
           />
 
           {errors.email && (
@@ -90,7 +96,7 @@ const RegisterPage = () => {
             type="password"
             placeholder="Enter your password"
             {...register("password")}
-            className="w-full rounded-md border px-3 py-2 outline-none focus:ring-2"
+          className="field"
           />
 
           {errors.password && (
@@ -115,9 +121,14 @@ const RegisterPage = () => {
           className="w-full"
           disabled={registerMutation.isPending}
         >
-          {registerMutation.isPending ? "Creating account..." : "Register"}
+          {registerMutation.isPending ? <><LoaderCircle className="animate-spin" />Creating account</> : <>Create account <ArrowRight /></>}
         </Button>
+        <p className="text-center text-sm text-muted-foreground">Already have an account? <Link href="/login" className="font-semibold text-primary hover:underline">Sign in</Link></p>
       </form>
+      </section>
+      <section className="hidden bg-foreground p-12 text-white lg:flex lg:flex-col lg:justify-center">
+        <div className="max-w-lg"><Sparkles className="size-10 text-violet-300" /><h2 className="mt-7 text-5xl font-semibold leading-tight tracking-[-0.045em]">Your next opportunity starts with better preparation.</h2><div className="mt-10 space-y-4 text-white/65"><p>01 · Understand how your experience tells a story</p><p>02 · Practice questions tailored to the exact role</p><p>03 · Close gaps with focused AI guidance</p></div></div>
+      </section>
     </main>
   );
 };

@@ -2,6 +2,7 @@
 
 import { useInterview } from "../hooks/use-interview";
 import { useInterviewQuestions } from "../hooks/use-interview-questions";
+import { BriefcaseBusiness, MessageSquareText, Sparkles } from "lucide-react";
 
 interface InterviewDetailProps {
   interviewId: string;
@@ -13,11 +14,11 @@ export const InterviewDetail = ({ interviewId }: InterviewDetailProps) => {
   const questionsQuery = useInterviewQuestions(interviewId);
 
   if (interviewQuery.isPending || questionsQuery.isPending) {
-    return <p>Loading interview...</p>;
+    return <div className="status-card">Preparing your interview...</div>;
   }
 
   if (interviewQuery.isError || questionsQuery.isError) {
-    return <p>Failed to load interview.</p>;
+    return <div className="status-card text-red-500">We couldn’t load this interview.</div>;
   }
 
   const interview = interviewQuery.data;
@@ -25,46 +26,45 @@ export const InterviewDetail = ({ interviewId }: InterviewDetailProps) => {
 
   return (
     <div className="space-y-8">
-      <section>
-        <h1 className="text-2xl font-semibold">{interview.title}</h1>
+      <section className="glass-panel relative overflow-hidden p-7 sm:p-9"><div className="absolute right-0 top-0 size-44 rounded-full bg-primary/15 blur-3xl" />
+        <p className="eyebrow">Interview plan</p><h1 className="page-title relative mt-3">{interview.title}</h1>
 
-        <p className="mt-2 text-gray-600">
-          Target Role: {interview.targetRole}
+        <p className="relative mt-4 flex items-center gap-2 text-muted-foreground"><BriefcaseBusiness className="size-4 text-primary" />
+          {interview.targetRole}
         </p>
       </section>
 
       {interview.jobDescription && (
-        <section>
-          <h2 className="text-lg font-semibold">Job Description</h2>
+        <section className="surface-card p-6 sm:p-7">
+          <h2 className="text-lg font-semibold">Role context</h2>
 
-          <div className="mt-3 whitespace-pre-wrap rounded border p-4">
+          <div className="mt-4 max-h-80 overflow-auto whitespace-pre-wrap text-sm leading-7 text-muted-foreground">
             {interview.jobDescription}
           </div>
         </section>
       )}
 
-      <section>
-        <h2 className="text-xl font-semibold">Interview Questions</h2>
+      <section><div className="flex items-center gap-3"><span className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary"><MessageSquareText className="size-5" /></span><div><p className="eyebrow">Personalized practice</p><h2 className="mt-1 text-2xl font-semibold">Interview questions</h2></div></div>
 
         {questions.length === 0 ? (
-          <p className="mt-4 text-gray-500">No questions generated yet.</p>
+          <div className="status-card mt-5"><Sparkles className="mr-2 size-4 text-primary" />No questions generated yet.</div>
         ) : (
           <div className="mt-4 space-y-4">
             {questions.map((question) => (
-              <div key={question.id} className="rounded border p-4">
+              <div key={question.id} className="surface-card p-6 sm:p-7">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-gray-500">
-                    Question {question.order}
+                  <span className="flex size-8 items-center justify-center rounded-full bg-foreground text-xs font-semibold text-white">
+                    {question.order}
                   </span>
 
                   {question.category && (
-                    <span className="rounded bg-gray-100 px-2 py-1 text-xs">
+                    <span className="rounded-full bg-primary/8 px-3 py-1 text-xs font-medium text-primary">
                       {question.category}
                     </span>
                   )}
                 </div>
 
-                <p className="mt-3">{question.question}</p>
+                <p className="mt-5 text-[1.05rem] font-medium leading-7">{question.question}</p>
               </div>
             ))}
           </div>

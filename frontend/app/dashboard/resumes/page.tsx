@@ -6,9 +6,9 @@ import Link from "next/link";
 
 const ResumesPage = () => {
   return (
-    <main className="mx-auto max-w-3xl space-y-8 p-8">
+    <main className="app-shell space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold">Resumes</h1>
+        <p className="eyebrow">Career foundation</p><h1 className="page-title mt-2">Your resumes</h1>
 
         <p className="mt-1 text-gray-500">Upload and manage your resumes.</p>
       </div>

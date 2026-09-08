@@ -13,7 +13,7 @@ const ResumePage = async ({ params }: ResumePageProps) => {
   const { id } = await params;
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 p-8">
+    <main className="app-shell max-w-5xl space-y-6">
       <Link
         href="/dashboard/resumes"
         className={buttonVariants({ variant: "ghost", size: "sm" })}

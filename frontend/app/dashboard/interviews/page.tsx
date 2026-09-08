@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const InterviewsPage = () => {
   return (
-    <main className="mx-auto max-w-3xl space-y-8 p-8">
+    <main className="app-shell space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">Manage Interviews</h1>
+          <p className="eyebrow">Practice studio</p><h1 className="page-title mt-2">Your interviews</h1>
 
           <p className="mt-1 text-gray-500">
             Create and review your personalized interviews.
@@ -17,7 +17,7 @@ const InterviewsPage = () => {
 
         <Link
           href="/dashboard/interviews/new"
-          className={buttonVariants({ size: "lg" })}
+          className={buttonVariants({ size: "lg", className: "hidden sm:inline-flex" })}
         >
           <Plus />
           Create a New Interview
@@ -25,6 +25,8 @@ const InterviewsPage = () => {
       </div>
 
       <InterviewList />
+
+      <Link href="/dashboard/interviews/new" className={buttonVariants({ size: "lg", className: "w-full sm:hidden" })}><Plus />Create a New Interview</Link>
 
       <Link href="/dashboard" className={buttonVariants({ variant: "ghost" })}>
         <ArrowLeft />
