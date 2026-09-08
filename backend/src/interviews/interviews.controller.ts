@@ -11,6 +11,7 @@ import {
 import { CreateInterviewDto } from './dto/create-interview.dto';
 import { InterviewsService } from './interviews.service';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
+import { SubmitAnswerDto } from './dto/submit-answer.dto';
 
 interface AuthenticatedRequest extends Request {
   user: {
@@ -53,5 +54,20 @@ export class InterviewsController {
   @Get(':id/questions')
   findQuestions(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
     return this.interviewsService.findQuestions(request.user.userId, id);
+  }
+
+  @Post(':id/questions/:questionId/answer')
+  submitAnswer(
+    @Param('id') interviewId: string,
+    @Param('questionId') questionId: string,
+    @Body() dto: SubmitAnswerDto,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    return this.interviewsService.submitAnswer(
+      request.user.userId,
+      interviewId,
+      questionId,
+      dto.content,
+    );
   }
 }

@@ -3,6 +3,7 @@
 import { useInterview } from "../hooks/use-interview";
 import { useInterviewQuestions } from "../hooks/use-interview-questions";
 import { BriefcaseBusiness, MessageSquareText, Sparkles } from "lucide-react";
+import { QuestionAnswer } from "./question-answer";
 
 interface InterviewDetailProps {
   interviewId: string;
@@ -65,6 +66,13 @@ export const InterviewDetail = ({ interviewId }: InterviewDetailProps) => {
                 </div>
 
                 <p className="mt-5 text-[1.05rem] font-medium leading-7">{question.question}</p>
+
+                <QuestionAnswer
+                  interviewId={interviewId}
+                  questionId={question.id}
+                  questionOrder={question.order}
+                  initialAnswer={question.answer?.content}
+                />
               </div>
             ))}
           </div>

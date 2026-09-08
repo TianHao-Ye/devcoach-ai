@@ -3,6 +3,7 @@ import { api } from "@/lib/api";
 import type {
   CreateInterviewInput,
   Interview,
+  InterviewAnswer,
   InterviewQuestion,
 } from "../types/interview";
 
@@ -39,6 +40,19 @@ export async function getInterviewQuestions(
 ): Promise<InterviewQuestion[]> {
   const response = await api.get<InterviewQuestion[]>(
     `/interviews/${interviewId}/questions`,
+  );
+
+  return response.data;
+}
+
+export async function saveInterviewAnswer(
+  interviewId: string,
+  questionId: string,
+  content: string,
+): Promise<InterviewAnswer> {
+  const response = await api.post<InterviewAnswer>(
+    `/interviews/${interviewId}/questions/${questionId}/answer`,
+    { content },
   );
 
   return response.data;

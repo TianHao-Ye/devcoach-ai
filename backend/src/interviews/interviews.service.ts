@@ -115,8 +115,45 @@ export class InterviewsService {
       where: {
         interviewId,
       },
+      include: {
+        answer: true,
+      },
       orderBy: {
         order: 'asc',
+      },
+    });
+  }
+
+  async submitAnswer(
+    userId: string,
+    interviewId: string,
+    questionId: string,
+    content: string,
+  ) {
+    const question = await this.prisma.interviewQuestion.findFirst({
+      where: {
+        id: questionId,
+        interviewId,
+        interview: {
+          userId,
+        },
+      },
+    });
+
+    if (!question) {
+      throw new NotFoundException('Interview question not found');
+    }
+
+    return this.prisma.interviewAnswer.upsert({
+      where: {
+        questionId,
+      },
+      update: {
+        content,
+      },
+      create: {
+        questionId,
+        content,
       },
     });
   }

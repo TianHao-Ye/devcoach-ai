@@ -30,4 +30,14 @@ export interface InterviewQuestion {
   createdAt: string;
 
   updatedAt: string;
+
+  answer: InterviewAnswer | null;
+}
+
+export interface InterviewAnswer {
+  id: string;
+  content: string;
+  questionId: string;
+  createdAt: string;
+  updatedAt: string;
 }
